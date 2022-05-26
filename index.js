@@ -37,6 +37,18 @@ async function run (){
                 const result = await partCollection.insertOne(data);
                 res.send(result);
            });
+
+           app.put('/update-part/:id', async(req,res)=>{
+               const {id} = req.params;
+               const data = req.body;
+
+               const filter = { _id: ObjectId(id) };
+               const updateDoc = {$set: data};
+               const option = {upsert: true};
+
+               const result = await partCollection.updateOne(filter, updateDoc,option);
+               res.send(result);
+           })
     }
     finally{
 
