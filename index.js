@@ -44,24 +44,24 @@ async function run (){
             res.send(result);
         })
 
-        app.post('/add-profile', async(req,res)=>{
+        // app.post('/add-profile', async(req,res)=>{
          
-                const data = req.body;
-                const result = await partCollection.insertOne(data);
-                res.send(result);
-           });
+        //         const data = req.body;
+        //         const result = await partCollection.insertOne(data);
+        //         res.send(result);
+        //    });
 
-           app.put('/update-profile/:id', async(req,res)=>{
-               const {id} = req.params;
-               const data = req.body;
+        //    app.put('/update-profile/:id', async(req,res)=>{
+        //        const {id} = req.params;
+        //        const data = req.body;
 
-               const filter = { _id: ObjectId(id) };
-               const updateDoc = {$set: data};
-               const option = {upsert: true};
+        //        const filter = { _id: ObjectId(id) };
+        //        const updateDoc = {$set: data};
+        //        const option = {upsert: true};
 
-               const result = await partCollection.updateOne(filter, updateDoc,option);
-               res.send(result);
-           });
+        //        const result = await partCollection.updateOne(filter, updateDoc,option);
+        //        res.send(result);
+        //    });
     }
     finally{
 
@@ -72,28 +72,28 @@ run().catch(console.dir);
 
 // Body
 
-app.get("/dummy-route/user2", async (req, res) => {
-    const data = req.body;
+// app.get("/dummy-route/user2", async (req, res) => {
+//     const data = req.body;
   
-    res.json(data);
-  });
+//     res.json(data);
+//   });
 
-  // Query
+//   // Query
 
-app.get("/dummy-route/user", async (req, res) => {
-    const { education,city,phone } = req.query;
-    console.log(education);
-    console.log(city);
-    res.json(phone);
-  });
+// app.get("/dummy-route/user", async (req, res) => {
+//     const { education,city,phone } = req.query;
+//     console.log(education);
+//     console.log(city);
+//     res.json(phone);
+//   });
 
-  // Param
+//   // Param
 
-app.get("/dummy-route/user/:id", async (req, res) => {
-    const { id } = req.params;
+// app.get("/dummy-route/user/:id", async (req, res) => {
+//     const { id } = req.params;
   
-    res.json(id);
-  });
+//     res.json(id);
+//   });
   
 
 
