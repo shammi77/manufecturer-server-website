@@ -29,8 +29,14 @@ async function run (){
             const cursor = partCollection.find(query);
             const parts = await cursor.toArray();
             res.send(parts);
-        })
+        });
 
+        app.post('/add-part', async(req,res)=>{
+         
+                const data = req.body;
+                const result = await partCollection.insertOne(data);
+                res.send(result);
+           });
     }
     finally{
 
@@ -41,8 +47,9 @@ async function run (){
 
 run().catch(console.dir);
 
-app.get('/', (req, res) => {
-    res.send('Running Manufacturer server');
+
+app.get('/', async (req, res) => {
+    res.json('Running Manufacturer server');
 });
 
 app.listen(port, ()=>{
