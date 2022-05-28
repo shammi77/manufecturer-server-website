@@ -33,18 +33,34 @@ async function run (){
             res.send(parts);
         });
 
-        app.put('/user/:email', async(req,res)=>{
+      app.get('/user' , async(req, res)=>{
+          const users = await userCollection.find().toArray();
+          res.send(users);
+      });
+      
+      app.put('/user/admin/:email', async (req, res) => {
+        const email = req.params.email;
+        const filter = { email: email };
+        const updateDoc = {
+          $set:{role : 'admin'},
+        };
+        const result = await userCollection.updateOne(filter, updateDoc);
+        res.send( result );
+      });
+
+        app.put('/user/:email', async (req, res) => {
             const email = req.params.email;
             const user = req.body;
             const filter = { email: email };
-            const options = {upsert: true };
-            const updateDoc = { 
-                $set: user,
+            const options = { upsert: true };
+            const updateDoc = {
+              $set: user,
             };
-            const result = await userCollection.updateOne(filter, updateDoc,options);
-            const token = jwt.sign({email:email}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '6h'})
-            res.send({result,  token});
-        })
+            const result = await userCollection.updateOne(filter, updateDoc, options);
+            const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10h' })
+            res.send({ result, token });
+          })
+      
 
         // app.post('/add-profile', async(req,res)=>{
          
