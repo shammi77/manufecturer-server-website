@@ -72,9 +72,13 @@ async function run() {
 
     app.post('/booking', async (req, res) => {
       const booking = req.body;
-
+      const query = {product: booking.product};
+      const exists = await bookingCollection.findOne(query);
+      if(exists) {
+        return res.send({success: false, booking:exists})
+      }
       const result = await bookingCollection.insertOne(booking);
-      res.send(result);
+      return res.send({success: true ,result});
     });
 
     app.get('/user', verifyJWT, async (req, res) => {
@@ -128,30 +132,6 @@ async function run() {
 
 run().catch(console.dir);
 
-// Body
-
-// app.get("/dummy-route/user2", async (req, res) => {
-//     const data = req.body;
-
-//     res.json(data);
-//   });
-
-//   // Query
-
-// app.get("/dummy-route/user", async (req, res) => {
-//     const { education,city,phone } = req.query;
-//     console.log(education);
-//     console.log(city);
-//     res.json(phone);
-//   });
-
-//   // Param
-
-// app.get("/dummy-route/user/:id", async (req, res) => {
-//     const { id } = req.params;
-
-//     res.json(id);
-//   });
 
 app.get("/", async (req, res) => {
   res.json("Running Manufacturer server");
